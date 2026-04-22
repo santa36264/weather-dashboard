@@ -64,11 +64,11 @@ export default defineConfig(({ mode }) => {
       },
       rollupOptions: {
         output: {
-          manualChunks: {
-            'vue-core': ['vue', 'vue-router', 'pinia'],
-            'charts': ['chart.js', 'vue-chartjs'],
-            'maps': ['leaflet', '@vue-leaflet/vue-leaflet'],
-            'utils': ['axios', 'date-fns', '@vueuse/core'],
+          manualChunks: (id) => {
+            if (id.includes('vue-router') || id.includes('pinia')) return 'vue-core'
+            if (id.includes('chart.js') || id.includes('vue-chartjs')) return 'charts'
+            if (id.includes('leaflet')) return 'maps'
+            if (id.includes('axios') || id.includes('date-fns') || id.includes('@vueuse')) return 'utils'
           },
         },
       },
